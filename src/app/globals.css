@@ -396,10 +396,10 @@ textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--prima
 .route-sub i { width: 1px; height: 11px; background: #cfc6b0; }
 .route-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 8px; min-width: 0; }
 .route-price { font-weight: 800; font-size: 1.15rem; white-space: nowrap; color: #0b2a4a; font-variant-numeric: tabular-nums; }
-.route-book { white-space: nowrap; text-decoration: none; background: linear-gradient(135deg, #fbc531, #fab217); color: #111; font-weight: 700; font-size: 0.8rem; padding: 8px 16px; border-radius: 999px; box-shadow: 0 4px 12px rgba(250, 178, 23, 0.4); }
+.route-book { white-space: nowrap; text-decoration: none; background: linear-gradient(135deg, #fbc531, #fab217); color: #111; font-weight: 700; font-size: 0.8rem; padding: 8px 12px; border-radius: 999px; box-shadow: 0 4px 12px rgba(250, 178, 23, 0.4); }
 .route-book:hover { filter: brightness(1.06); }@media (prefers-reduced-motion: reduce) { .route-tile, .route-swap { transition: none; } .route-tile:hover, .route-swap:hover { transform: none; } }
 @media (max-width: 1100px) { .route-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 700px) { .route-grid { grid-template-columns: 1fr; } .route-photo { flex-basis: 80px; height: 80px; } }
+@media (max-width: 700px) { .route-grid { grid-template-columns: 1fr; } .route-photo { flex-basis: 64px; height: 64px; } }
 /* Route page: one card per vehicle with photo, fare, Show details and Book now; the split-up opens below the same card */
 .vehicle-list { display: flex; flex-direction: column; gap: 14px; margin: 14px 0; }
 .vehicle-card { background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--primary); border-radius: 14px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08); overflow: hidden; transition: box-shadow 0.2s ease; }
@@ -460,8 +460,8 @@ textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--prima
 .req-mark { color: #dc2626; font-weight: 800; }
 
 /* Routes we serve: Show details opens the fare split-up on one line inside the same card */
-.route-actions { display: inline-flex; align-items: center; gap: 8px; flex: 0 1 auto; max-width: 100%; margin-left: auto; }
-.route-details { background: none; border: 0; padding: 0; font: inherit; font-size: 0.74rem; font-weight: 600; color: #8a6a14; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; white-space: nowrap; }
+.route-actions { display: inline-flex; align-items: center; gap: 6px; flex: 0 1 auto; max-width: 100%; margin-left: auto; }
+.route-details { background: none; border: 0; padding: 0; font: inherit; font-size: 0.72rem; font-weight: 600; color: #8a6a14; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; white-space: nowrap; }
 .route-details:hover { color: #0b2a4a; }
 .route-split { flex: 1 1 100%; display: flex; flex-wrap: nowrap; align-items: center; overflow-x: auto; margin: 0; padding: 8px 2px 0; font-size: 0.74rem; color: #0b2a4a; border-top: 1px dashed #e3c987; scrollbar-width: thin; }
 .route-split span { display: inline-flex; gap: 4px; white-space: nowrap; flex: none; font-weight: 600; }
