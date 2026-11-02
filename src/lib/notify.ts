@@ -80,7 +80,7 @@ function render(b: BookingAlert, office: boolean): { html: string; text: string 
   const text =
     `Confirmed Booking\nBooking ID# ${b.reference}\nThanks for Choosing 247 Drop Taxi\n\nBooking Details\n` +
     rows.map(([k, v]) => `${k}: ${v}`).join('\n') + `\n${FOOT}\n\nFor Question Contact: ${OFFICE_PHONE}\nwww.247droptaxi.com` +
-    (office ? `\n\nIP ADDRESS: ${b.ip || '-'}\nPassengers / bags: ${b.passengers} / ${b.luggage}\nPickup address: ${b.pickupAddress}${b.notes ? `\nNotes: ${b.notes}` : ''}\nAdmin: ${siteUrl}/admin` : '');
+    (office ? `\n\nIP ADDRESS: ${b.ip || '-'}\nPassengers / bags: ${b.passengers} / ${b.luggage}\nPickup address: ${b.pickupAddress}${b.notes ? `\nNotes: ${b.notes}` : ''}` : '');
   return { html, text };
 }
 
