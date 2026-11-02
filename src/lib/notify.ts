@@ -76,7 +76,7 @@ function render(b: BookingAlert, office: boolean): { html: string; text: string 
     `<h3 style="margin:0 0 6px">Booking Details</h3>` +
     `<table cellpadding="4" style="border-collapse:collapse">${rows.map(([k, v]) => `<tr><td style="color:#555">${esc(k)}:</td><td><strong>${esc(v)}</strong></td></tr>`).join('')}</table>` +
     `<p>${FOOT}</p><p>For Question Contact: ${OFFICE_PHONE}<br><a href="${siteUrl}">www.247droptaxi.com</a></p>` +
-    (office ? `<p style="color:#777">IP ADDRESS: ${esc(b.ip || '-')}<br>Passengers / bags: ${b.passengers} / ${b.luggage}<br>Pickup address: ${esc(b.pickupAddress)}${b.notes ? `<br>Notes: ${esc(b.notes)}` : ''}<br><a href="${siteUrl}/admin">Open the admin page</a></p>` : '');
+    (office ? `<p style="color:#777">IP ADDRESS: ${esc(b.ip || '-')}<br>Passengers / bags: ${b.passengers} / ${b.luggage}<br>Pickup address: ${esc(b.pickupAddress)}${b.notes ? `<br>Notes: ${esc(b.notes)}` : ''}</p>` : '');
   const text =
     `Confirmed Booking\nBooking ID# ${b.reference}\nThanks for Choosing 247 Drop Taxi\n\nBooking Details\n` +
     rows.map(([k, v]) => `${k}: ${v}`).join('\n') + `\n${FOOT}\n\nFor Question Contact: ${OFFICE_PHONE}\nwww.247droptaxi.com` +

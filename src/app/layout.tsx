@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#2c2c2c' };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // On a brand-new database the tables do not exist yet; keep the layout rendering so /admin can run the first-time setup.
+  // On a brand-new database the tables do not exist yet; keep the layout rendering.
   const { supportPhone, whatsappNumber } = await getSettings().catch(() => ({ supportPhone: '', whatsappNumber: '' }));
   return (
     <html lang="en">

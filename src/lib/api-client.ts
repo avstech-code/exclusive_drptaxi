@@ -36,15 +36,3 @@ export async function autocomplete(q: string, session: string): Promise<PlaceSug
     return null;
   }
 }
-
-/** Admin calls: the token travels in a header and is only kept in memory by the admin page. */
-export async function adminRequest<T>(token: string, path: string, method = 'GET', body?: unknown): Promise<T> {
-  const headers: Record<string, string> = { 'X-Admin-Token': token };
-  let payload: BodyInit | undefined;
-  if (body instanceof FormData) payload = body;
-  else if (body !== undefined) {
-    headers['Content-Type'] = 'application/json';
-    payload = JSON.stringify(body);
-  }
-  return request<T>(`/api/admin${path}`, { method, headers, body: payload });
-}
