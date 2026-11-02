@@ -11,7 +11,7 @@ const newSession = () =>
  * Pickup/drop search box. Suggestions come from our own API (which asks Google), so no Google script or key is
  * loaded in the browser. Follows the ARIA combobox pattern: arrow keys move, Enter selects, Escape closes.
  */
-export function PlaceInput({ inputId, label, placeholder = 'Enter min 3 char to search', onSelected, onUnavailable }: {
+export function PlaceInput({ inputId, label, placeholder = 'Enter min 3 char to search', onSelected, onUnavailable, prefill }: {
   inputId: string;
   label: string;
   placeholder?: string;
@@ -19,6 +19,8 @@ export function PlaceInput({ inputId, label, placeholder = 'Enter min 3 char to 
   onSelected: (place: PlaceSuggestion | null) => void;
   /** Called when the place search itself fails (quota, outage) so the page can switch to the city lists. */
   onUnavailable: () => void;
+  /** Fill the box with this text and select the best matching place (used by the Book now buttons). A new nonce applies it again. */
+  prefill?: { text: string; nonce: number } | null;
 }) {
   const [text, setText] = useState('');
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
@@ -33,6 +35,32 @@ export function PlaceInput({ inputId, label, placeholder = 'Enter min 3 char to 
     session.current = newSession();
     return () => clearTimeout(timer.current);
   }, []);
+
+  const prefillNonce = prefill?.nonce;
+  useEffect(() => {
+    if (!prefill) return;
+    const q = prefill.text.trim();
+    if (!q) return;
+    let cancelled = false;
+    setText(q);
+    onSelected(null);
+    latest.current = q;
+    (async () => {
+      const result = await autocomplete(q, session.current);
+      if (cancelled || latest.current !== q) return;
+      if (result === null) return onUnavailable();
+      if (result.length) {
+        const s = result[0];
+        setText(s.secondaryText ? `${s.mainText}, ${s.secondaryText}` : s.mainText);
+        onSelected(s);
+        session.current = newSession();
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefillNonce]);
 
   const close = () => {
     setOpen(false);
