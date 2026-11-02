@@ -2,7 +2,7 @@ import 'server-only';
 
 // Tiny per-instance cache for data that is read on every quote but changes rarely (vehicles, switches, cities).
 // Each read used to cost a database round trip, and a fare needs several of them one after another.
-// Admin changes call clearCaches() so they show at once on the instance that handled the change; other
+// Writers call clearCaches() so they show at once on the instance that handled the change; other
 // instances catch up within TTL_MS.
 
 export const TTL_MS = 15_000;
