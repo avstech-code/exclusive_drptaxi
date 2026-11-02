@@ -199,7 +199,9 @@ export function BookingForm({ params, gst }: { params: Record<string, string>; g
             <p className="note city-note">Due to a problem in Google Maps, the kms may be higher. Please contact the office for the exact price range. Thank you.</p>
           )}
 
-          <form className="card" onSubmit={(e) => submit(e, trip)} noValidate>
+          <form className="card book-form" onSubmit={(e) => submit(e, trip)} noValidate>
+            <div className="book-cols">
+            <div className="book-col">
             <fieldset>
               <legend className="req">Choose a vehicle</legend>
               {trip.quotes.map((q) => (
@@ -222,50 +224,72 @@ export function BookingForm({ params, gst }: { params: Record<string, string>; g
                 </div>
               ))}
             </fieldset>
-
-            <label className="req" htmlFor="name">Your name</label>
-            <input id="name" name="name" required maxLength={100} value={form.customerName} onChange={(e) => set('customerName', e.target.value)} autoComplete="name" />
-
-            <label className="req" htmlFor="mobile">Mobile number</label>
-            <input id="mobile" name="mobile" required inputMode="numeric" maxLength={10} pattern="[6-9][0-9]{9}" value={form.mobile} onChange={(e) => set('mobile', e.target.value)} autoComplete="tel-national" />
-
-            <label htmlFor="email">Email (optional)</label>
-            <input id="email" name="email" type="email" maxLength={150} value={form.email} onChange={(e) => set('email', e.target.value)} autoComplete="email" />
-
-            <label className="req" htmlFor="date">Pickup date</label>
-            <input id="date" name="date" type="date" required min={today} value={form.pickupDate}
-              onChange={(e) => { set('pickupDate', e.target.value); requote(e.target.value, form.returnDate); }} />
-
-            {kind === 'ROUND_TRIP' && (
-              <>
-                <label className="req" htmlFor="return">Return date</label>
-                <input id="return" name="return" type="date" required min={form.pickupDate || today} value={form.returnDate}
-                  onChange={(e) => { set('returnDate', e.target.value); requote(form.pickupDate, e.target.value); }} />
-                {trip.days > 0 && <p className="note">{trip.days} {trip.days === 1 ? 'day' : 'days'}. The price is recalculated when you change the dates.</p>}
-              </>
-            )}
-
-            <label className="req" htmlFor="time">Pickup time</label>
-            <input id="time" name="time" type="time" required value={form.pickupTime} onChange={(e) => set('pickupTime', e.target.value)} />
-
-            <label className="req" htmlFor="address">Pickup address</label>
-            <input id="address" name="address" required maxLength={300} value={form.pickupAddress} onChange={(e) => set('pickupAddress', e.target.value)} />
-
-            <div className="two-col">
-              <div>
-                <label className="req" htmlFor="pax">Passengers</label>
-                <input id="pax" name="pax" type="number" min={1} max={12} required value={form.passengers} onChange={(e) => set('passengers', Number(e.target.value))} />
-              </div>
-              <div>
-                <label htmlFor="bags">Luggage (bags)</label>
-                <input id="bags" name="bags" type="number" min={0} max={20} value={form.luggage} onChange={(e) => set('luggage', e.target.value)} />
-              </div>
             </div>
 
-            <label htmlFor="notes">Notes (optional)</label>
-            <input id="notes" name="notes" maxLength={500} value={form.notes} onChange={(e) => set('notes', e.target.value)} />
+            <div className="book-col book-details">
+              <h3 className="book-step-title">Your details</h3>
 
-            {error && <p className="error" role="alert">{error}</p>}
+              <div className="book-pair">
+                <div>
+                  <label className="req" htmlFor="name">Your name</label>
+                  <input id="name" name="name" required maxLength={100} value={form.customerName} onChange={(e) => set('customerName', e.target.value)} autoComplete="name" />
+                </div>
+                <div>
+                  <label className="req" htmlFor="mobile">Mobile number</label>
+                  <input id="mobile" name="mobile" required inputMode="numeric" maxLength={10} pattern="[6-9][0-9]{9}" value={form.mobile} onChange={(e) => set('mobile', e.target.value)} autoComplete="tel-national" />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="email">Email (optional)</label>
+                <input id="email" name="email" type="email" maxLength={150} value={form.email} onChange={(e) => set('email', e.target.value)} autoComplete="email" />
+              </div>
+
+              <div className="book-pair">
+                <div>
+                  <label className="req" htmlFor="date">Pickup date</label>
+                  <input id="date" name="date" type="date" required min={today} value={form.pickupDate}
+                    onChange={(e) => { set('pickupDate', e.target.value); requote(e.target.value, form.returnDate); }} />
+                </div>
+                <div>
+                  <label className="req" htmlFor="time">Pickup time</label>
+                  <input id="time" name="time" type="time" required value={form.pickupTime} onChange={(e) => set('pickupTime', e.target.value)} />
+                </div>
+              </div>
+
+              {kind === 'ROUND_TRIP' && (
+                <div>
+                  <label className="req" htmlFor="return">Return date</label>
+                  <input id="return" name="return" type="date" required min={form.pickupDate || today} value={form.returnDate}
+                    onChange={(e) => { set('returnDate', e.target.value); requote(form.pickupDate, e.target.value); }} />
+                  {trip.days > 0 && <p className="note">{trip.days} {trip.days === 1 ? 'day' : 'days'}. The price is recalculated when you change the dates.</p>}
+                </div>
+              )}
+
+              <div>
+                <label className="req" htmlFor="address">Pickup address</label>
+                <input id="address" name="address" required maxLength={300} value={form.pickupAddress} onChange={(e) => set('pickupAddress', e.target.value)} />
+              </div>
+
+              <div className="two-col">
+                <div>
+                  <label className="req" htmlFor="pax">Passengers</label>
+                  <input id="pax" name="pax" type="number" min={1} max={12} required value={form.passengers} onChange={(e) => set('passengers', Number(e.target.value))} />
+                </div>
+                <div>
+                  <label htmlFor="bags">Luggage (bags)</label>
+                  <input id="bags" name="bags" type="number" min={0} max={20} value={form.luggage} onChange={(e) => set('luggage', e.target.value)} />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="notes">Notes (optional)</label>
+                <input id="notes" name="notes" maxLength={500} value={form.notes} onChange={(e) => set('notes', e.target.value)} />
+              </div>
+            </div>
+            </div>
+
+            {error &&<p className="error" role="alert">{error}</p>}
 
             <div className="book-bar">
               {(() => {
