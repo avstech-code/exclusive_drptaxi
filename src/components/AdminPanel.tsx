@@ -37,6 +37,7 @@ export function AdminPanel({ routeCities, packages }: { routeCities: { slug: str
   const [connected, setConnected] = useState(false);
   const [tab, setTab] = useState<'bookings' | 'tariff' | 'cities'>('bookings');
   const [error, setError] = useState('');
+  const [setupMsg, setSetupMsg] = useState('');
   const [busy, setBusy] = useState(false);
 
   const [query, setQuery] = useState('');
@@ -86,6 +87,22 @@ export function AdminPanel({ routeCities, packages }: { routeCities: { slug: str
     } catch (err) {
       setError(err instanceof ApiFailure && err.status === 401 ? 'Invalid admin token.'
         : err instanceof ApiFailure && err.status === 503 ? 'Admin access is not configured on the server.' : 'Could not reach the server.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  /** First-time setup for a new database: creates the tables and fills only empty ones (same as POST /api/admin/seed). */
+  async function setupDatabase() {
+    setBusy(true);
+    setError('');
+    setSetupMsg('');
+    try {
+      await call<Record<string, string>>('/seed', 'POST');
+      setSetupMsg('Database is ready. Now sign in.');
+    } catch (err) {
+      setError(err instanceof ApiFailure && err.status === 401 ? 'Invalid admin token.'
+        : err instanceof ApiFailure && err.status === 503 ? 'Admin access is not configured on the server.' : 'Could not set up the database.');
     } finally {
       setBusy(false);
     }
@@ -330,6 +347,9 @@ export function AdminPanel({ routeCities, packages }: { routeCities: { slug: str
           <label htmlFor="token">Admin token</label>
           <input id="token" name="token" type="password" autoComplete="off" required value={token} onChange={(e) => setToken(e.target.value)} />
           <button className="btn" type="submit" disabled={busy || !token}>{busy ? 'Signing in…' : 'Sign in'}</button>
+          <button className="btn" type="button" disabled={busy || !token} onClick={setupDatabase}>Set up database (first time only)</button>
+          <p className="note">Run this once on a new site, before signing in. It only fills empty tables and never overwrites existing data.</p>
+          {setupMsg && <p className="note" role="status">{setupMsg}</p>}
           {error && <p className="error" role="alert">{error}</p>}
         </form>
       </>
