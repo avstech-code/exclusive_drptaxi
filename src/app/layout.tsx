@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import './theme-exclusive.css';
 import './theme-premium.css';
+import './theme-luxe.css';
 import { SiteHeader } from '@/components/SiteHeader';
 import { FabStack, SiteFooter } from '@/components/SiteFooter';
 import { ScrollTop } from '@/components/ScrollTop';
@@ -27,7 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body>
         <SiteHeader phone={supportPhone} />
