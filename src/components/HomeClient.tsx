@@ -23,7 +23,7 @@ interface Result {
 }
 
 /** Hero background pictures, shown one after another every HERO_SECONDS. */
-const HERO_IMAGES = ['/hero/hero-1.webp', '/hero/hero-2.webp', '/hero/hero-3.webp'];
+const HERO_IMAGES = ['/hero/exclusive-1.jpg', '/hero/exclusive-2.jpg', '/hero/exclusive-3.jpg'];
 const HERO_SECONDS = 7;
 
 export function HomeClient({ cities, routes, tariff, packages, placesConfigured }: {
@@ -53,6 +53,8 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
   const [time, setTime] = useState(() => localTime());
   const [returnDate, setReturnDate] = useState('');
   const [packageHours, setPackageHours] = useState(8);
+  const [prefill, setPrefill] = useState<{ from: string; to: string; nonce: number } | null>(null);
+  const formEl = useRef<HTMLDivElement>(null);
 
   const [quoting, setQuoting] = useState(false);
   const [quoteError, setQuoteError] = useState('');
@@ -188,6 +190,20 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
     router.push(`/book?${q}`);
   }
 
+  /** Book now on a route tile: fill the enquiry form with that route and scroll up to it instead of opening another page. */
+  function pickRoute(fromName: string, toName: string) {
+    const slugOf = (n: string) => cityByName.get(n)?.slug ?? n.toLowerCase().replace(/\s+/g, '-');
+    setTripState('drop');
+    setResult(null);
+    setQuoteError('');
+    setFromPlace(null);
+    setToPlace(null);
+    setFrom(slugOf(fromName));
+    setTo(slugOf(toName));
+    setPrefill({ from: fromName, to: toName, nonce: Date.now() });
+    formEl.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
   const toggleCard = (id: number) => setOpenCards((list) => (list.includes(id) ? list.filter((x) => x !== id) : [...list, id]));
 
   const cityOptions = (id: string, name: string, value: string, set: (v: string) => void, placeholder: string, label: string) => (
@@ -213,13 +229,13 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
         <div className="wrap hero-grid">
           <div className="hero-copy">
             <span className="hero-badge"><b>★</b> Tamil Nadu · Puducherry · Bangalore drop taxi</span>
-            <h1>Services Across <span className="hl">South India</span></h1>
+            <h1>The Best Taxi Service At Your <span className="hl">Door Step</span></h1>
             <p className="hero-lead">Reliable one way and round trip taxis across Tamil Nadu, Pondicherry and Bangalore. Professional drivers, transparent pricing and a comfortable ride.</p>
           </div>
 
-          <div className="widget card">
+          <div className="widget card" id="enquiry" ref={formEl}>
             <div className="trip-tabs" role="tablist" aria-label="Trip type">
-              {([['drop', 'One Way'], ['round', 'Round Trip'], ['package', 'Package']] as const).map(([key, name]) => (
+              {([['drop', 'One Way'], ['round', 'Round Trip']] as const).map(([key, name]) => (
                 <button key={key} type="button" role="tab" className={`trip-tab${trip === key ? ' active' : ''}`} aria-selected={trip === key} onClick={() => setTrip(key)}>{name}</button>
               ))}
             </div>
@@ -233,8 +249,8 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
                   <div className="search-grid">
                     {placesEnabled ? (
                       <>
-                        <PlaceInput key={`${trip === 'package' ? 'p' : 'o'}-from`} inputId={`${trip}-from`} label="From" placeholder="Enter pickup location" onSelected={setFromPlace} onUnavailable={() => setPlacesDown(true)} />
-                        {trip !== 'package' && <PlaceInput inputId={`${trip}-to`} label="To" placeholder="Enter drop location" onSelected={setToPlace} onUnavailable={() => setPlacesDown(true)} />}
+                        <PlaceInput key={`${trip === 'package' ? 'p' : 'o'}-from`} inputId={`${trip}-from`} label="From" placeholder="Enter pickup location" onSelected={setFromPlace} onUnavailable={() => setPlacesDown(true)} prefill={prefill && { text: prefill.from, nonce: prefill.nonce }} />
+                        {trip !== 'package' && <PlaceInput inputId={`${trip}-to`} label="To" placeholder="Enter drop location" onSelected={setToPlace} onUnavailable={() => setPlacesDown(true)} prefill={prefill && { text: prefill.to, nonce: prefill.nonce }} />}
                       </>
                     ) : (
                       <>
@@ -369,7 +385,15 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
                 const split = open ? routeSplit(r.distanceKm) : null;
                 const toCity = cityByName.get(v.to);
                 return (
-                  <div className="route-tile" key={r.slug}>
+                  <div
+                    className="route-tile"
+                    key={r.slug}
+                    onClick={(e) => {
+                      // the buttons and the Book now link keep their own actions; anywhere else on the tile picks the route
+                      if ((e.target as HTMLElement).closest('button, a')) return;
+                      pickRoute(v.from, v.to);
+                    }}
+                  >
                     <span className="route-photo" style={{ background: routeBg(v.to) }}>
                       {!toCity?.images.length && <span className="route-emoji" aria-hidden="true">{cityIcon(toCity?.slug ?? v.to)}</span>}
                     </span>
@@ -385,7 +409,7 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
                         {r.fromFare !== null && <span className="route-price">Rs.{num(r.fromFare, 0)}</span>}
                         <span className="route-actions">
                           <button type="button" className="route-details" aria-expanded={open} onClick={() => toggleIn(openRoutes, r.slug, setOpenRoutes)}>{open ? 'Hide details' : 'Show details'}</button>
-                          <Link className="route-book" href={`/${v.slug}`}>Book Now</Link>
+                          <Link className="route-book" href={`/${v.slug}`} onClick={(e) => { e.preventDefault(); pickRoute(v.from, v.to); }}>Book Now</Link>
                         </span>
                       </span>
                     </span>
