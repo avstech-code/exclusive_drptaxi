@@ -17,11 +17,12 @@ export function SiteHeader({ phone }: { phone: string }) {
   };
 
   return (
+    <>
+    <div className="top-bar"><div className="wrap"><span>24/7 One Way Drop Taxi · Tamil Nadu · Pondicherry · Bangalore</span><a href={`tel:${phone}`}>Get Quick Support: {phone}</a></div></div>
     <header className="site-header">
       <div className="header-inner">
-        <Link href="/" className="brand" aria-label="droptaxi home">
-          <img className="brand-logo" src="/logo.png" alt="" width={26} height={32} />
-          <span className="brand-text"><span>drop</span>taxi</span>
+        <Link href="/" className="brand" aria-label="Exclusive Drop Taxi home">
+          <img className="brand-logo" src="/logo-exclusive.jpg" alt="Exclusive Drop Taxi" height={56} />
         </Link>
         <nav className={`site-nav${open ? ' open' : ''}`} id="site-nav" aria-label="Main" onClick={onNavClick}>
           <Link href="/" className={cls('/', true)}>Home</Link>
@@ -48,5 +49,6 @@ export function SiteHeader({ phone }: { phone: string }) {
         </button>
       </div>
     </header>
+    </>
   );
 }

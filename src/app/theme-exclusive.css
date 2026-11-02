@@ -1,0 +1,178 @@
+/* Exclusive Drop Taxi theme layer: loaded after globals.css, overrides colours, fonts, corners and the header/footer look.
+   Palette and fonts taken from exclusivedroptaxi.com (Antek theme): lime #8fe100, charcoal #2c2c2c, Barlow headings, Roboto body. */
+:root {
+  --primary: #8fe100;
+  --primary-hover: #a3f01c;
+  --primary-dark: #84b400;
+  --primary-shadow: rgba(143, 225, 0, 0.4);
+  --primary-tint: #f1fbd9;
+  --accent: #84b400;
+  --link: #2c2c2c;
+  --ink: #2c2c2c;
+  --muted: #666b70;
+  --line: #e2e2e2;
+  --page: #f2f2f2;
+  --dark: #2c2c2c;
+  --darker: #1f1f1f;
+  --radius: 0px;
+  --shadow: 0 4px 22px rgba(0, 0, 0, 0.08);
+  --head: 'Barlow', 'Roboto', Arial, sans-serif;
+}
+body { font-family: 'Roboto', Arial, sans-serif; color: var(--ink); background: #fff; line-height: 1.7; }
+h1, h2, h3, h4, .section-title, .fare-name, .route-title, .brand { font-family: var(--head); letter-spacing: 0; }
+h1, h2, .section-title { text-transform: uppercase; font-weight: 700; color: var(--dark); }
+a { color: var(--dark); }
+::selection { background: var(--primary); color: var(--dark); }
+:focus-visible { outline-color: var(--primary-dark); }
+
+/* ---------- top bar + header (white, sharp, uppercase nav) ---------- */
+.top-bar { background: var(--dark); color: #ddd; font-size: 0.88rem; padding: 8px 0; }
+.top-bar .wrap { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.top-bar a { color: var(--primary); font-weight: 700; text-decoration: none; }
+.site-header { background: #fff; backdrop-filter: none; border-bottom: 0; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1); }
+.header-inner { padding: 10px 16px; }
+.brand { color: var(--dark); font-weight: 700; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.brand span { background: var(--primary); color: var(--dark); border-radius: 0; }
+.brand-logo { height: 44px; }
+.site-nav { gap: 6px; }
+.site-nav > a, .menu > summary { color: var(--dark); border-radius: 0; font-family: var(--head); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.95rem; padding: 8px 12px; border-bottom: 3px solid transparent; }
+.site-nav > a:hover, .menu > summary:hover { color: var(--dark); background: transparent; border-bottom-color: var(--primary); }
+.site-nav > a.active { color: var(--dark); border-bottom-color: var(--primary); }
+.menu-list { border-radius: 0; border: 0; border-top: 3px solid var(--primary); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18); }
+.menu-list a { color: var(--dark); border-radius: 0; font-family: var(--head); text-transform: uppercase; letter-spacing: 0.5px; }
+.menu-list a:hover { background: var(--primary-tint); }
+.header-call { background: var(--primary); color: var(--dark); border-radius: 0; font-family: var(--head); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; padding: 11px 22px; }
+.header-call:hover { background: var(--dark); color: var(--primary); }
+.nav-toggle { border: 1px solid #ccc; border-radius: 0; color: var(--dark); }
+@media (max-width: 900px) {
+  .site-nav { background: #fff; border-bottom: 3px solid var(--primary); box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15); }
+  .site-nav > a, .menu > summary { border-bottom: 1px solid #eee; border-radius: 0; padding: 13px 12px; }
+  .menu-list a { color: var(--dark); }
+  .menu-list a:hover { background: var(--primary-tint); color: var(--dark); }
+}
+
+/* ---------- hero + search widget ---------- */
+.hero { color: #fff; }
+.hero::before { background: linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.45) 55%, rgba(0, 0, 0, 0.2) 100%); }
+.hero::after { background: var(--primary); opacity: 1; height: 5px; }
+.hero h1 { color: #fff; font-family: var(--head); font-weight: 700; letter-spacing: 0; text-transform: uppercase; }
+.hl { color: var(--primary); }
+.hero-badge { border-radius: 0; background: var(--primary); color: var(--dark); border: 0; font-family: var(--head); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+.hero-badge b { color: var(--dark); }
+.widget.card { border-radius: 0; background: rgba(31, 31, 31, 0.93); border: 0; border-top: 5px solid var(--primary); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); backdrop-filter: blur(6px); }
+.trip-tabs { border-radius: 0; background: rgba(255, 255, 255, 0.08); border: 0; width: 100%; max-width: 420px; padding: 0; gap: 0; }
+.trip-tab { flex: 1; border-radius: 0; font-family: var(--head); font-size: 0.95rem; letter-spacing: 1px; color: #cfcfcf; }
+.trip-tab.active { background: var(--primary); color: var(--dark); box-shadow: none; }
+.widget label { color: var(--primary); font-family: var(--head); font-weight: 600; }
+.widget .field, .widget .place-field { border-bottom-color: rgba(255, 255, 255, 0.28); }
+.widget.card .btn { border-radius: 0; background: var(--primary); color: var(--dark); font-family: var(--head); font-size: 1.05rem; box-shadow: 0 12px 30px rgba(143, 225, 0, 0.35); }
+.widget.card .btn:hover:not([disabled]) { background: #fff; color: var(--dark); }
+.widget.card .btn[disabled] { background: #3a3a3a; color: #888; }
+@media (max-width: 860px) { .widget.card { border-radius: 0; } .hero::before { background: linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.65)); } }
+
+/* ---------- generic components ---------- */
+.section-title::after { background: var(--primary); border-radius: 0; height: 4px; width: 60px; }
+.section.alt { background: var(--page); }
+.tile { border-radius: 0; border: 0; border-bottom: 4px solid transparent; box-shadow: var(--shadow); }
+.tile:hover { border-bottom-color: var(--primary); box-shadow: 0 12px 34px rgba(0, 0, 0, 0.14); }
+.tile h3 { font-size: 1.3rem; text-transform: uppercase; }
+.icon { background: var(--primary); border-radius: 0; width: 50px; height: 50px; }
+.card { border-radius: 0; }
+.btn { background: var(--primary); color: var(--dark); border-radius: 0; font-family: var(--head); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 13px 26px; transition: 0.25s; }
+.btn:hover { background: var(--dark); color: var(--primary); }
+.btn[disabled] { background: #e3e3e3; color: #999; }
+.btn.secondary { background: #fff; color: var(--dark); border: 2px solid var(--dark); }
+.btn.secondary:hover { background: var(--dark); color: var(--primary); }
+select, input, textarea { border-radius: 0; border-color: #d4d4d4; }
+select:focus, input:focus, textarea:focus { border-color: var(--primary-dark); box-shadow: 0 0 0 3px var(--primary-shadow); }
+.choice { border-radius: 0; }
+.choice.selected { border-color: var(--primary-dark); background: var(--primary-tint); box-shadow: 0 0 0 1px var(--primary-dark); }
+.choice input { accent-color: var(--primary-dark); }
+.facts li { border-radius: 0; border-left-color: var(--primary); }
+th { background: var(--dark); color: var(--primary); border-bottom: 3px solid var(--primary); font-family: var(--head); text-transform: uppercase; letter-spacing: 0.5px; }
+table { border-radius: 0; }
+.chips li { background: var(--primary-tint); border-radius: 0; }
+.card-more, .link-more { color: var(--dark); }
+.link-more { text-decoration: underline; text-decoration-color: var(--primary); text-decoration-thickness: 3px; }
+.service-off, .city-note { background: var(--primary-tint); border: 1px solid #cfe99a; color: #3d5200; border-radius: 0; }
+.fab { background: var(--dark); color: var(--primary); border-color: var(--primary); }
+.fab:hover { background: var(--primary); color: var(--dark); }
+.scroll-top { background: var(--primary); color: var(--dark); border-radius: 0; }
+.row-btn { background: var(--primary); color: var(--dark); border-radius: 0; }
+.city-card { border-radius: 0; }
+.city-hero { border-radius: 0; }
+.photo img { border-radius: 0; }
+.tab { border-color: var(--dark); border-radius: 0; font-family: var(--head); text-transform: uppercase; }
+.tab.active { background: var(--primary); }
+.admin-table tr.selected { background: var(--primary-tint); }
+.suggestions { border-radius: 0; }
+.suggestions li { border-radius: 0; }
+.suggestions li:hover, .suggestions li.active { background: var(--primary-tint); }
+.route-map { border-radius: 0; }
+
+/* ---------- fares section: charcoal band, sharp white cards with lime top border ---------- */
+.fares { background: linear-gradient(180deg, #2c2c2c, #1f1f1f); }
+.fares .section-title { color: #fff; }
+.fares-sub { border-radius: 0; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.18); }
+.fares-note { color: var(--primary); background: rgba(143, 225, 0, 0.1); border-color: rgba(143, 225, 0, 0.45); }
+.fare-card { border-radius: 0; border-top-color: var(--primary); }
+.fare-card:hover { box-shadow: 0 18px 42px rgba(0, 0, 0, 0.5), 0 0 0 2px var(--primary); }
+.fare-card.best { box-shadow: 0 12px 34px rgba(0, 0, 0, 0.4), 0 0 0 2px var(--primary); }
+.fare-badge, .best-chip { background: var(--primary); color: var(--dark); border-radius: 0; font-family: var(--head); }
+.seat-chip { background: var(--dark); color: var(--primary); border-radius: 0; }
+.fare-total { font-family: var(--head); color: var(--dark); }
+.fare-book, .fare-actions button { border-radius: 0; font-family: var(--head); text-transform: uppercase; letter-spacing: 0.8px; }
+.fare-book { background: var(--primary); color: var(--dark); }
+.fare-actions .fare-book { border-color: var(--primary); }
+.fare-book:hover { background: var(--dark); color: var(--primary); }
+.fare-actions .fare-book:hover { border-color: var(--dark); }
+.fare-details-btn { border-color: var(--dark); color: var(--dark); }
+.fare-details-btn:hover { background: var(--dark); color: var(--primary); }
+
+/* ---------- routes grid ---------- */
+.routes-dark { background: var(--page); border: 0; color: var(--ink); }
+.routes-dark .section-title { color: var(--dark); }
+.route-tile { border-radius: 0; border: 0; border-left: 5px solid var(--primary); box-shadow: var(--shadow); }
+.route-tile:hover { border-color: var(--primary); box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16); }
+.route-photo { border-radius: 0; }
+.route-title { color: var(--dark); text-transform: uppercase; font-size: 1.1rem; }
+.route-swap { border-radius: 0; border-color: var(--primary-dark); background: var(--primary-tint); color: var(--dark); }
+.route-swap:hover { background: var(--primary); color: var(--dark); }
+.route-sub i { background: #c8c8c8; }
+.route-price { color: var(--dark); font-family: var(--head); font-size: 1.3rem; }
+.route-book { background: var(--primary); color: var(--dark); border-radius: 0; box-shadow: none; font-family: var(--head); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+.route-book:hover { background: var(--dark); color: var(--primary); filter: none; }
+.route-details { color: var(--primary-dark); }
+.route-details:hover { color: var(--dark); }
+.route-split, .choice-split { border-top-color: #cfe99a; color: var(--dark); }
+.route-split span:not(:last-child)::after, .choice-split span:not(:last-child)::after { color: var(--primary-dark); }
+
+/* ---------- route page vehicle cards + split-up ---------- */
+.vehicle-card { border-radius: 0; border: 0; border-left: 5px solid var(--primary); box-shadow: var(--shadow); }
+.vehicle-details-btn { border-radius: 0; color: var(--dark); border-color: #bbb; }
+.vehicle-details-btn:hover, .vehicle-details-btn[aria-expanded="true"] { border-color: var(--primary-dark); background: var(--primary-tint); }
+.vehicle-split { border-radius: 0; background: var(--dark); border-color: var(--primary); }
+.vehicle-split .split-total dt, .vehicle-split .split-total dd { color: var(--primary); }
+.route-links a { border-radius: 0; border-left-color: var(--primary); }
+.route-links a:hover { border-color: var(--primary); }
+
+/* ---------- booking page ---------- */
+.book-page { border-radius: 0; border-top: 5px solid var(--primary); background: rgba(255, 255, 255, 0.97); }
+.book-bg::after { background: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.75)); }
+.book-bar { }
+@media (max-width: 700px) { .book-bar { border-radius: 0; } }
+
+/* ---------- footer: dark, lime underlined headings ---------- */
+.site-footer { background: var(--darker); color: #bbb; margin-top: 0; padding-top: 64px; }
+.site-footer a { color: #ddd; }
+.site-footer a:hover { color: var(--primary); text-decoration: none; }
+.site-footer h4 { color: #fff; font-family: var(--head); text-transform: uppercase; letter-spacing: 1px; font-size: 1.15rem; margin-bottom: 18px; }
+.site-footer h4::after { content: ''; display: block; width: 36px; height: 3px; background: var(--primary); margin-top: 8px; }
+.site-footer li { padding: 4px 0; }
+.footer-brand { font-family: var(--head); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+.footer-bottom { border-top-color: #333; }
+
+/* Exclusive Drop Taxi logo (JPG with white background) */
+.brand-logo { height: 56px; width: auto; }
+.footer-logo { height: 52px; background: #fff; padding: 4px 10px; }
+@media (max-width: 480px) { .brand-logo { height: 46px; } }

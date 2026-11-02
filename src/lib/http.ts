@@ -1,6 +1,5 @@
 import 'server-only';
 import { NextRequest, NextResponse } from 'next/server';
-import { timingSafeEqual } from 'node:crypto';
 
 /** Thrown anywhere in the API; the handler turns it into {message} with the status, like the old ApiErrors. */
 export class ApiError extends Error {
@@ -40,15 +39,6 @@ export async function readJson<T>(req: NextRequest): Promise<T> {
   }
 }
 
-/** Every /api/admin endpoint calls this first. With no ADMIN_TOKEN configured admin access is off. */
-export function requireAdmin(req: NextRequest): void {
-  const token = process.env.ADMIN_TOKEN ?? '';
-  if (!token) throw new ApiError(503, 'Admin access is not configured');
-  const supplied = req.headers.get('x-admin-token') ?? '';
-  const a = Buffer.from(token);
-  const b = Buffer.from(supplied);
-  if (a.length !== b.length || !timingSafeEqual(a, b)) throw new ApiError(401, 'Invalid admin token');
-}
 
 /** Best-effort client address for rate limiting. */
 export function clientIp(req: NextRequest): string {

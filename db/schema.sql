@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS bookings (
 CREATE INDEX IF NOT EXISTS idx_bookings_mobile ON bookings (mobile);
 CREATE INDEX IF NOT EXISTS idx_bookings_created ON bookings (created_at DESC);
 
--- Switches staff can change in /admin (gst_enabled, package_enabled, places_enabled, support_phone, whatsapp_number)
+-- Switches stored here (change them in the database; gst_enabled, package_enabled, places_enabled, support_phone, whatsapp_number)
 CREATE TABLE IF NOT EXISTS app_settings (
     setting_key   VARCHAR(50) PRIMARY KEY,
     setting_value VARCHAR(200) NOT NULL
