@@ -31,8 +31,8 @@ export interface BookingAlert {
   ip?: string | null;
 }
 
-const OFFICE_EMAIL = '247droptaxii@gmail.com';
-const OFFICE_PHONE = '7200345635';
+const OFFICE_EMAIL = 'exclusivedroptaxi@gmail.com';
+const OFFICE_PHONE = '9047311511';
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const TRIP_LABEL: Record<string, string> = { ONE_WAY: 'One Way', ROUND_TRIP: 'Round Trip', PACKAGE: 'Package' };
 const rupees = (n: number) => `₹ ${n.toLocaleString('en-IN')}`;
