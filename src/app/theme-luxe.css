@@ -282,3 +282,11 @@ details.details, .details { border-radius: 14px; }
 @media (max-width: 480px) { .widget .search-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .widget.card { padding: 22px 18px 24px; } }
 
 .top-bar .wrap { justify-content: flex-end; }
+
+/* ---------- enquiry form heading, required marker spacing, amount font ---------- */
+.widget-title { margin: 0 0 16px; text-align: center; font-family: var(--lx-serif); font-weight: 600; font-size: 1.6rem; letter-spacing: 0; color: #fff; }
+.widget label.req::after { content: '*'; margin-left: 6px; letter-spacing: 0; color: #ff6b6b; }
+.route-price, .fare-total, .vehicle-fare .price, .book-form .book-bar-total strong, .choice-main .price, td.price {
+  font-family: var(--lx-sans); font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; font-feature-settings: 'tnum' 1, 'lnum' 1;
+}
+.fare-total { font-size: 1.9rem; }
