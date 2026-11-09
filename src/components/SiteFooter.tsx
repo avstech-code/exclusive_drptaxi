@@ -10,7 +10,7 @@ export function SiteFooter({ phone }: { phone: string }) {
     <footer className="site-footer">
       <div className="footer-grid">
         <div>
-          <div className="footer-brand"><img className="brand-logo footer-logo" src="/logo-exclusive.jpg" alt="Exclusive Drop Taxi" height={56} /></div>
+          <div className="footer-brand"><img className="brand-logo footer-logo" src="/logo-exclusive.svg" alt="Exclusive Drop Taxi" height={56} /></div>
           <p>Pay only for your one way trip, with the full fare shown before you book.</p>
           <ul>
             <li><a href={`tel:${phone}`}>{phone}</a></li>
