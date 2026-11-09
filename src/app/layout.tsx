@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'droptaxi.com',
   description: 'One way drop taxis across Tamil Nadu, Bangalore and Pondicherry.',
+  openGraph: { siteName: 'Exclusive Drop Taxi', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Exclusive Drop Taxi' }] },
+  twitter: { card: 'summary_large_image', images: ['/og-image.png'] },
 };
 
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#2c2c2c' };
