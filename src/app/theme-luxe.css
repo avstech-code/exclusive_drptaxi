@@ -281,11 +281,4 @@ details.details, .details { border-radius: 14px; }
 @media (max-width: 960px) { .widget.card { max-width: 620px; justify-self: center; } }
 @media (max-width: 480px) { .widget .search-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .widget.card { padding: 22px 18px 24px; } }
 
-/* ---------- running text under the logo bar ---------- */
 .top-bar .wrap { justify-content: flex-end; }
-.ticker { background: var(--dark, #111); color: var(--primary, #8fe100); overflow: hidden; white-space: nowrap; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 0; }
-.ticker-track { display: inline-flex; width: max-content; animation: ticker-scroll 28s linear infinite; }
-.ticker-track span { padding-right: 0; white-space: pre; }
-.ticker:hover .ticker-track { animation-play-state: paused; }
-@keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
