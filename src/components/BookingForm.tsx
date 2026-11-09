@@ -112,6 +112,11 @@ export function BookingForm({ params, gst }: { params: Record<string, string>; g
     if (started.current) return;
     started.current = true;
     if (!form.pickupTime) set('pickupTime', localTime());
+    // name and mobile entered in the home page enquiry form
+    try {
+      const saved = JSON.parse(sessionStorage.getItem('enquiryContact') || 'null');
+      if (saved && typeof saved.name === 'string' && typeof saved.mobile === 'string') setForm((f) => ({ ...f, customerName: f.customerName || saved.name, mobile: f.mobile || saved.mobile }));
+    } catch { /* ignore */ }
     if (routeSlug) {
       getRoute(routeSlug).then(
         (r) => {

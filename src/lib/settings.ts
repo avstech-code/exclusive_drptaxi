@@ -10,8 +10,8 @@ export interface Settings {
   whatsappNumber: string;
 }
 
-const DEFAULT_PHONE = '+919087411511';
-const DEFAULT_WHATSAPP = '919087411511';
+const DEFAULT_PHONE = '+919047311511';
+const DEFAULT_WHATSAPP = '919047311511';
 
 /** Staff-editable switches, read from the database on every call so a change applies at once. */
 export function getSettings(): Promise<Settings> {

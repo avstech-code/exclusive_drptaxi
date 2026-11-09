@@ -49,6 +49,8 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
   const [toPlace, setToPlace] = useState<PlaceSuggestion | null>(null);
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
+  const [custName, setCustName] = useState('');
+  const [custMobile, setCustMobile] = useState('');
   const [date, setDate] = useState(today);
   const [time, setTime] = useState(() => localTime());
   const [returnDate, setReturnDate] = useState('');
@@ -127,9 +129,10 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
 
   const a = placesEnabled ? fromPlace?.placeId : from;
   const b = placesEnabled ? toPlace?.placeId : to;
-  const canSearch = trip === 'package'
+  const contactOk = !!custName.trim() && /^[6-9][0-9]{9}$/.test(custMobile);
+  const canSearch = contactOk && (trip === 'package'
     ? !!a && !!date && packages.some((p) => p.hours === packageHours)
-    : !!a && !!b && a !== b && (trip !== 'round' || (!!date && !!returnDate && returnDate >= date));
+    : !!a && !!b && a !== b && (trip !== 'round' || (!!date && !!returnDate && returnDate >= date)));
 
   const scrollToFares = () => setTimeout(() => faresEl.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
 
@@ -186,6 +189,8 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
 
   function bookNow(vehicleId: number) {
     if (!result) return;
+    // name and mobile travel to the booking page through sessionStorage, not the URL
+    try { sessionStorage.setItem('enquiryContact', JSON.stringify({ name: custName.trim(), mobile: custMobile })); } catch { /* private mode */ }
     const q = new URLSearchParams(Object.entries({ ...result.params, vehicle: vehicleId }).map(([k, v]) => [k, String(v)]));
     router.push(`/book?${q}`);
   }
@@ -282,6 +287,14 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
                         <input id="return" name="return" type="date" min={date || today} value={returnDate} onChange={(e) => setReturnDate(e.target.value)} />
                       </div>
                     )}
+                    <div className="field">
+                      <label className="req" htmlFor="enq-name">Your name</label>
+                      <input id="enq-name" name="name" required autoComplete="name" maxLength={100} placeholder="Full name" value={custName} onChange={(e) => setCustName(e.target.value)} />
+                    </div>
+                    <div className="field">
+                      <label className="req" htmlFor="enq-mobile">Mobile number</label>
+                      <input id="enq-mobile" name="mobile" type="tel" inputMode="numeric" required autoComplete="tel-national" pattern="[6-9][0-9]{9}" maxLength={10} placeholder="10 digit mobile number" value={custMobile} onChange={(e) => setCustMobile(e.target.value.replace(/\D/g, '').slice(0, 10))} />
+                    </div>
                   </div>
                   <button className="btn" type="submit" disabled={!canSearch}>Explore cabs</button>
                 </form>
