@@ -36,3 +36,8 @@ export async function autocomplete(q: string, session: string): Promise<PlaceSug
     return null;
   }
 }
+
+/** Tells the office about an "Explore cabs" search. Fire and forget: a failure must never affect the visitor. */
+export const sendEnquiry = (body: unknown) => {
+  request('/api/enquiry', json(body)).catch(() => {});
+};

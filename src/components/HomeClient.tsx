@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { CityCard } from './CityCard';
 import { PlaceInput } from './PlaceInput';
-import { cityQuote, tripQuote, ApiFailure } from '@/lib/api-client';
+import { cityQuote, tripQuote, sendEnquiry, ApiFailure } from '@/lib/api-client';
 import { cityGradient, cityIcon } from '@/lib/city-theme';
 import { inr, localDate, localTime, num } from '@/lib/format';
 import { cityImageUrl, vehicleImageUrl } from '@/lib/types';
@@ -179,6 +179,13 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
         note: tab === 'round' ? roundTripNote(q) : tab === 'drop' ? minKmNote(q.distanceKm) : '',
       });
       setOpenCards([]);
+      sendEnquiry({
+        customerName: custName.trim(), mobile: custMobile,
+        tripType: tab === 'round' ? 'ROUND_TRIP' : tab === 'package' ? 'PACKAGE' : 'ONE_WAY',
+        from: q.from, to: q.to, pickupDate: date || null, pickupTime: time || null,
+        returnDate: tab === 'round' ? returnDate : null, packageHours: tab === 'package' ? packageHours : null,
+        distanceKm: q.distanceKm, fares: q.quotes.map((f) => ({ vehicle: f.vehicle, total: f.total })),
+      });
     } catch (err) {
       setQuoteError((err instanceof ApiFailure && err.message) || 'We could not price this trip. Please try again.');
     } finally {

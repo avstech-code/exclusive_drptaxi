@@ -130,3 +130,42 @@ export async function sendBookingNotifications(b: BookingAlert): Promise<void> {
   }
   await Promise.allSettled(sends);
 }
+
+export interface EnquiryAlert {
+  customerName: string;
+  mobile: string;
+  tripType: string;
+  from: string;
+  to: string;
+  pickupDate: string | null;
+  pickupTime: string | null;
+  returnDate: string | null;
+  packageHours: number | null;
+  distanceKm: number | null;
+  fares: { vehicle: string; total: number }[];
+  ip?: string | null;
+}
+
+/** Email to the office when a visitor presses "Explore cabs": a lead, before any booking exists. Failures only log. */
+export async function sendEnquiryNotification(e: EnquiryAlert): Promise<void> {
+  const officeTo = (process.env.BOOKING_ALERT_EMAIL ?? '').split(',').map((x) => x.trim()).filter(Boolean);
+  if (officeTo.length === 0) officeTo.push(OFFICE_EMAIL);
+  const rows: [string, string][] = [
+    ['Name', e.customerName],
+    ['Phone', e.mobile],
+    ['Journey Type', TRIP_LABEL[e.tripType] ?? e.tripType],
+    ['Pickup Location', e.from],
+    ['Drop Location', e.to],
+  ];
+  if (e.pickupDate) rows.push(['Travel Date & Time', e.pickupTime ? dateTime(e.pickupDate, e.pickupTime) : e.pickupDate]);
+  if (e.returnDate) rows.push(['Return Date', e.returnDate]);
+  if (e.packageHours) rows.push(['Package', `${e.packageHours} hours`]);
+  if (e.distanceKm) rows.push(['Trip Distance', `${e.distanceKm} KM`]);
+  for (const f of e.fares) rows.push([f.vehicle.toUpperCase(), rupees(f.total)]);
+  rows.push(['IP Address', e.ip || '-']);
+  const html =
+    `<h2 style="margin:0 0 4px">New Booking Enquiry</h2><p style="margin:0 0 12px">A visitor searched for cabs on the website. They have not booked yet, please call them.</p>` +
+    `<table cellpadding="4" style="border-collapse:collapse">${rows.map(([k, v]) => `<tr><td style="color:#555">${esc(k)}:</td><td><strong>${esc(v)}</strong></td></tr>`).join('')}</table>`;
+  const text = `New Booking Enquiry\nA visitor searched for cabs on the website. They have not booked yet, please call them.\n\n` + rows.map(([k, v]) => `${k}: ${v}`).join('\n');
+  await sendEmail(officeTo, `New enquiry: ${e.from} to ${e.to} (${e.customerName}, ${e.mobile})`, html, text);
+}
