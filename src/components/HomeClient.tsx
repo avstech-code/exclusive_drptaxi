@@ -246,7 +246,6 @@ export function HomeClient({ cities, routes, tariff, packages, placesConfigured 
           </div>
 
           <div className="widget card" id="enquiry" ref={formEl}>
-            <h2 className="widget-title">Enquire here</h2>
             <div className="trip-tabs" role="tablist" aria-label="Trip type">
               {([['drop', 'One Way'], ['round', 'Round Trip']] as const).map(([key, name]) => (
                 <button key={key} type="button" role="tab" className={`trip-tab${trip === key ? ' active' : ''}`} aria-selected={trip === key} onClick={() => setTrip(key)}>{name}</button>
